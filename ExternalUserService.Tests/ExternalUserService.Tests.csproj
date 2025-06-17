@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Shouldly" Version="4.3.0" />
     <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExternalUserService.CompositionRoot\ExternalUserService.CompositionRoot.csproj" />
+    <ProjectReference Include="..\ExternalUserService\ExternalUserService.csproj" />
   </ItemGroup>
 
 </Project>

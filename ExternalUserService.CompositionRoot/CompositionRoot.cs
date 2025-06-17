@@ -4,7 +4,7 @@ namespace ExternalUserService.CompositionRoot;
 
 public static class CompositionRoot
 {
-    internal static IServiceProvider ConfigureServices()
+    public static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
 
