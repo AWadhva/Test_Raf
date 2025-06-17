@@ -5,7 +5,7 @@ using ExternalUserService.Models;
 public class ExternalUserHttpClient : IExternalUserClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
-
+    public const string ClientId = "reqresClient";
     public ExternalUserHttpClient(IHttpClientFactory httpClientFactory)
     {
         if (httpClientFactory == null)
@@ -16,7 +16,9 @@ public class ExternalUserHttpClient : IExternalUserClient
 
     private HttpClient CreateClient()
     {
-        return _httpClientFactory.CreateClient("reqresClient");
+        var client = _httpClientFactory.CreateClient(ClientId);
+        client.DefaultRequestHeaders.Add("x-api-key", "reqres-free-v1");
+        return client;
     }
 
     // TODO: return MayBe
@@ -44,7 +46,7 @@ public class ExternalUserHttpClient : IExternalUserClient
     // TODO: return MayBe
     public async Task<List<User>> GetUsersByPageAsync(int page)
     {
-        var client = CreateClient();
+        var client = CreateClient();        
 
         // TODO: handle exception
         var response = await client.GetAsync($"users?page={page}");

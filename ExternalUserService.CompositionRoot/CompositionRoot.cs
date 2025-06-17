@@ -4,15 +4,15 @@ namespace ExternalUserService.CompositionRoot;
 
 public static class CompositionRoot
 {
-    public static IServiceProvider ConfigureServices()
+    public static ServiceCollection ConfigureServices()
     {
         var services = new ServiceCollection();
 
-        services.AddHttpClient("reqresClient", client =>
+        services.AddHttpClient(ExternalUserHttpClient.ClientId, client =>
         {
             client.BaseAddress = new Uri("https://reqres.in/api/");
         });
 
-        return services.BuildServiceProvider();
+        return services;
     }
 }
