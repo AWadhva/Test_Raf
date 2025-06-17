@@ -14,7 +14,7 @@ public class ExternalUserHttpClientTests
         var provider = services.BuildServiceProvider();
 
         sut = provider.GetRequiredService<ExternalUserHttpClient>();
-        sut.ShouldNotBeNull();
+        sut.ShouldNotBeNull();        
     }
 
     [Fact]
