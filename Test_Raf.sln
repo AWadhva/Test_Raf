@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36127.28 d17.14
+VisualStudioVersion = 17.14.36127.28
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalUserService", "ExternalUserService\ExternalUserService.csproj", "{4CE63231-7363-4CFA-8B9B-A74A489A79AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalUserService.Tests", "ExternalUserService.Tests\ExternalUserService.Tests.csproj", "{22E74545-D216-4FC0-A54E-D5C41C51D4D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalUserService.CompositionRoot", "ExternalUserService.CompositionRoot\ExternalUserService.CompositionRoot.csproj", "{1F56C260-34C4-4E17-A6B0-DC169CBDBAAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{4CE63231-7363-4CFA-8B9B-A74A489A79AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CE63231-7363-4CFA-8B9B-A74A489A79AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CE63231-7363-4CFA-8B9B-A74A489A79AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E74545-D216-4FC0-A54E-D5C41C51D4D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E74545-D216-4FC0-A54E-D5C41C51D4D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E74545-D216-4FC0-A54E-D5C41C51D4D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E74545-D216-4FC0-A54E-D5C41C51D4D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F56C260-34C4-4E17-A6B0-DC169CBDBAAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F56C260-34C4-4E17-A6B0-DC169CBDBAAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F56C260-34C4-4E17-A6B0-DC169CBDBAAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F56C260-34C4-4E17-A6B0-DC169CBDBAAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

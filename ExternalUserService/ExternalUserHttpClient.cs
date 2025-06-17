@@ -2,11 +2,11 @@
 using System.Text.Json;
 using ExternalUserService.Models;
 
-public class ExternalUserClient : IExternalUserClient
+public class ExternalUserHttpClient : IExternalUserClient
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public ExternalUserClient(IHttpClientFactory httpClientFactory)
+    public ExternalUserHttpClient(IHttpClientFactory httpClientFactory)
     {
         if (httpClientFactory == null)
             throw new ArgumentException("Unexpected: httpClientFactory is null");
