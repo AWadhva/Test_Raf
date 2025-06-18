@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace ExternalUserService.CompositionRoot;
 
@@ -25,12 +27,23 @@ public static class CompositionRoot
                 throw new InvalidOperationException("BaseAddress not configured.");
 
             client.BaseAddress = new Uri(baseAddress);            
-        });
+        })
+            .AddPolicyHandler(GetRetryPolicy()); ;
         
         services.AddSingleton<UserService>();
 
         services.AddSingleton<IExternalUserClient, ExternalUserHttpClient>();
 
         return services;
+    }
+
+    private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    {
+        return HttpPolicyExtensions
+       .HandleTransientHttpError()
+       .WaitAndRetryAsync(
+           retryCount: 2,
+           sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+       );
     }
 }
