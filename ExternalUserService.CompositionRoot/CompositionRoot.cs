@@ -24,15 +24,8 @@ public static class CompositionRoot
 
             client.BaseAddress = new Uri(baseAddress);            
         });
-
-        services.AddSingleton<UserFetcher>();
+        
         services.AddSingleton<UserService>();
-
-        services.AddSingleton<UsersRepository>()
-            .AddSingleton<IGetUsers>(provider =>
-                provider.GetRequiredService<UsersRepository>())
-            .AddSingleton<ISetUsers>(provider =>
-                provider.GetRequiredService<UsersRepository>());
 
         services.AddSingleton<IExternalUserClient, ExternalUserHttpClient>();
 

@@ -4,26 +4,20 @@ namespace ExternalUserService;
 
 public class UserService
 {
-    IGetUsers usersRepo;
+    private readonly IExternalUserClient fetcher;
 
-    public UserService(IGetUsers usersRepo)
+    public UserService(IExternalUserClient fetcher)
     {
-        this.usersRepo = usersRepo;
+        this.fetcher = fetcher;
     }
 
-    public User GetUserById(int userId)
-    {
-        if (usersRepo.Users == null)
-            return null;
-        
-        usersRepo.Users.TryGetValue(userId, out User user);
-        return user;
+    public Task<User> GetUserById(int userId)
+    {        
+        return fetcher.GetUserByIdAsync(userId);        
     }
 
-    public IEnumerable<User> GetAllUsers()
+    public Task<IEnumerable<User>> GetAllUsers()
     {
-        if (usersRepo.Users == null)
-            return null;
-        return usersRepo.Users.Values;
+        return UserFetcherHelpers.FetchAllUsersList(fetcher);
     }
 }

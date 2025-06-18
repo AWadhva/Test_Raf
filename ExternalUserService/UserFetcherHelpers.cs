@@ -4,6 +4,10 @@ namespace ExternalUserService
 {
     internal static class UserFetcherHelpers
     {
+        public static async Task<IEnumerable<User>> FetchAllUsersList(IExternalUserClient fetcher)
+        {
+            return (await FetchAllUsers(fetcher)).Values;
+        }
 
         public static async Task<Dictionary<int, User>> FetchAllUsers(IExternalUserClient fetcher)
         {
