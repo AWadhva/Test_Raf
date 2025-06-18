@@ -5,6 +5,8 @@ namespace ExternalUserService.CompositionRoot;
 
 public static class CompositionRoot
 {
+    public const string BaseAddress = "ExternalClient:BaseAddress";
+
     public static ServiceCollection ConfigureServices()
     {
         var configuration = new ConfigurationBuilder()
@@ -17,7 +19,7 @@ public static class CompositionRoot
 
         services.AddHttpClient(ExternalUserHttpClient.ClientId, client =>
         {
-            var baseAddress = configuration["ExternalClient:BaseAddress"];
+            var baseAddress = configuration[BaseAddress];
 
             if (string.IsNullOrEmpty(baseAddress))
                 throw new InvalidOperationException("BaseAddress not configured.");

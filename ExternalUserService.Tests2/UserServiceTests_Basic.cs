@@ -12,7 +12,7 @@ public class UserServiceTests_Basic
         var services = ExternalUserService.CompositionRoot.CompositionRoot.ConfigureServices();
         var provider = services.BuildServiceProvider();
 
-        userService = provider.GetRequiredService<UserService>();        
+        userService = provider.GetRequiredService<UserService>();
     }
 
     [Fact]
@@ -22,14 +22,14 @@ public class UserServiceTests_Basic
     }
 
     [Fact]
-    public async void GetUserByIdAPI_RecordExists()
+    public async void GetUserById_RecordExists()
     {
         User u = (await userService.GetUserById(userId: 1)).Value;
         u.ShouldNotBeNull();
     }
 
     [Fact]
-    public async void GetUserByIdAPI_RecordDoesntExist()
+    public async void GetUserById_RecordDoesntExist()
     {
         var result = (await userService.GetUserById(userId: 100000));
         User u = result.Value;
