@@ -16,7 +16,7 @@ public class UserService
         return fetcher.GetUserByIdAsync(userId);        
     }
 
-    public Task<IEnumerable<User>> GetAllUsers()
+    public Task<Result<IEnumerable<User>>> GetAllUsers()
     {
         return UserFetcherHelpers.FetchAllUsersList(fetcher);
     }

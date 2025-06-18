@@ -16,9 +16,9 @@ public class UserServiceTests_Basic
     }
 
     [Fact]
-    public async void GetAllUserAPIWorks()
+    public async void GetAllUsersWorks()
     {
-        (await userService.GetAllUsers()).ToList().Count().ShouldBeGreaterThan(0);
+        (await userService.GetAllUsers()).Value.ToList().Count().ShouldBeGreaterThan(0);
     }
 
     [Fact]

@@ -4,26 +4,34 @@ namespace ExternalUserService
 {
     internal static class UserFetcherHelpers
     {
-        public static async Task<IEnumerable<User>> FetchAllUsersList(IExternalUserClient fetcher)
+        public static async Task<Result<IEnumerable<User>>> FetchAllUsersList(IExternalUserClient fetcher)
         {
-            return (await FetchAllUsers(fetcher)).Values;
+            var result = await FetchAllUsers(fetcher);
+            if (result.IsSuccess)
+            {
+                return Result<IEnumerable<User>>.Success(result.Value.Values);
+            }
+            else
+            {
+                return Result<IEnumerable<User>>.Failure(result.Error);
+            }
         }
 
-        public static async Task<Dictionary<int, User>> FetchAllUsers(IExternalUserClient fetcher)
+        public static async Task<Result<Dictionary<int, User>>> FetchAllUsers(IExternalUserClient fetcher)
         {
             Dictionary<int, User> users = new();
 
             int page = 0;
 
             var userBatch = await fetcher.GetUsersByPageAsync(page);
-            if (userBatch.Users == null || userBatch.TotalPages == null)
-                return users;
+            if (!userBatch.IsSuccess)
+                return Result<Dictionary<int, User>>.Failure(userBatch.Error);
 
-            int totalPages = (int)userBatch.TotalPages;
+            int totalPages = (int)userBatch.Value.TotalPages;
 
             while (true)
             {
-                userBatch.Users.ForEach(x =>
+                userBatch.Value.Users.ForEach(x =>
                 {
                     if (users.TryGetValue(x.Id, out _))
                     {
@@ -40,12 +48,12 @@ namespace ExternalUserService
                 else
                 {
                     userBatch = await fetcher.GetUsersByPageAsync(page);
-                    if (userBatch.Users == null)
-                        break;
+                    if (!userBatch.IsSuccess)
+                        return Result<Dictionary<int, User>>.Failure(userBatch.Error);
                 }
             }
 
-            return users;
+            return Result < Dictionary<int, User>>.Success(users);
         }
     }
 }

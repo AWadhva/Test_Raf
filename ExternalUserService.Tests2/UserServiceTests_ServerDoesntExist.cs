@@ -29,8 +29,14 @@ public class UserServiceTests_ServerDoesntExist
     //}
 
     [Fact]
-    public async void GetUserById_YieldsExpectedResult()
+    public async void GetUserById_YieldsErrorResult()
     {
         (await userService.GetUserById(userId: 1)).IsSuccess.ShouldBeFalse();
+    }
+
+    [Fact]
+    public async void GetAllUsers_YieldsErrorResult()
+    {
+        (await userService.GetAllUsers()).IsSuccess.ShouldBeFalse();
     }
 }

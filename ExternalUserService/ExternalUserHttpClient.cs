@@ -46,22 +46,30 @@ public class ExternalUserHttpClient : IExternalUserClient
             return Result<User>.Failure(exp);
         }
     }
-
-    // TODO: return MayBe
-    public async Task<(int? TotalPages, List<User> Users)> GetUsersByPageAsync(int page)
-    {
-        int? TotalPages = -1;
+    
+    public async Task<Result<(int TotalPages, List<User> Users)>> GetUsersByPageAsync(int page)
+    {        
         var client = CreateClient();
 
-        // TODO: handle exception
-        var response = await client.GetAsync($"users?page={page}");
+        try
+        {
+            var response = await client.GetAsync($"users?page={page}");
 
-        response.EnsureSuccessStatusCode();
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return Result<(int TotalPages, List<User> Users)>.Success((-1, null));
+            }
 
-        var responseBody = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
 
-        // TODO: handle json exception
-        var parsed = JsonSerializer.Deserialize<UserListResponse>(responseBody);        
-        return (TotalPages: parsed?.TotalPages, parsed?.Data ?? new List<User>());
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            var parsed = JsonSerializer.Deserialize<UserListResponse>(responseBody);
+            return Result<(int TotalPages, List<User> Users)>.Success((TotalPages: parsed.TotalPages, parsed.Data));
+        }
+        catch (Exception exp)
+        {
+            return Result<(int, List<User>)>.Failure(exp);
+        }
     }
 }
