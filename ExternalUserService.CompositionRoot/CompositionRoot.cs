@@ -26,7 +26,8 @@ public static class CompositionRoot
         });
 
         services.AddSingleton<UserFetcher>();
-    
+        services.AddSingleton<UserService>();
+
         services.AddSingleton<UsersRepository>()
             .AddSingleton<IGetUsers>(provider =>
                 provider.GetRequiredService<UsersRepository>())

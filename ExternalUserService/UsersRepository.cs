@@ -7,6 +7,7 @@ public class UsersRepository : IGetUsers, ISetUsers
     public void SetUsers (Dictionary<int, User> users)
     { 
         {
+            // TODO: can use double-check locking for optimization
             lock(lck)
             {
                 this.users = users.AsReadOnly();
