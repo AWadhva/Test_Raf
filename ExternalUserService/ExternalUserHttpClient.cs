@@ -20,27 +20,31 @@ public class ExternalUserHttpClient : IExternalUserClient
         client.DefaultRequestHeaders.Add("x-api-key", "reqres-free-v1");
         return client;
     }
-
-    // TODO: return MayBe
-    public async Task<User> GetUserByIdAsync(int userId)
+    
+    public async Task<Result<User>> GetUserByIdAsync(int userId)
     {
         var client = CreateClient();
 
-        // TODO: handle exception
-        var response = await client.GetAsync($"users/{userId}");
-
-        if (response.StatusCode == HttpStatusCode.NotFound)
+        try
         {
-            return null;
+            var response = await client.GetAsync($"users/{userId}");
+
+            if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return Result<User>.Success(null);
+            }
+        
+            response.EnsureSuccessStatusCode();
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            
+            var parsed = JsonSerializer.Deserialize<UserResponse>(responseBody);
+            return Result<User>.Success(parsed.Data);
         }
-
-        response.EnsureSuccessStatusCode();
-
-        var responseBody = await response.Content.ReadAsStringAsync();
-
-        // TODO: handle json exception
-        var parsed = JsonSerializer.Deserialize<UserResponse>(responseBody);
-        return parsed?.Data;
+        catch (Exception exp)
+        {
+            return Result<User>.Failure(exp);
+        }
     }
 
     // TODO: return MayBe

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ExternalUserService.Models;
+using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
 namespace ExternalUserService.Tests2;
@@ -21,8 +22,18 @@ public class UserServiceTests_Basic
     }
 
     [Fact]
-    public void GetUserByIdAPIWorks()
+    public async void GetUserByIdAPI_RecordExists()
     {
-        userService.GetUserById(userId: 1).ShouldNotBeNull();
+        User u = (await userService.GetUserById(userId: 1)).Value;
+        u.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public async void GetUserByIdAPI_RecordDoesntExist()
+    {
+        var result = (await userService.GetUserById(userId: 100000));
+        User u = result.Value;
+        u.ShouldBeNull();
+        result.IsSuccess.ShouldBeTrue();
     }
 }

@@ -11,7 +11,7 @@ public class UserService
         this.fetcher = fetcher;
     }
 
-    public Task<User> GetUserById(int userId)
+    public Task<Result<User>> GetUserById(int userId)
     {        
         return fetcher.GetUserByIdAsync(userId);        
     }
