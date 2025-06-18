@@ -4,16 +4,16 @@ namespace ExternalUserService
 {
     internal static class UserFetcherHelpers
     {
-        public static async Task<Result<IEnumerable<User>>> FetchAllUsersList(IExternalUserClient fetcher)
+        public static async Task<Result<Dictionary<int, User>>> FetchAllUsersList(IExternalUserClient fetcher)
         {
             var result = await FetchAllUsers(fetcher);
             if (result.IsSuccess)
             {
-                return Result<IEnumerable<User>>.Success(result.Value.Values);
+                return Result<Dictionary<int, User>>.Success(result.Value);
             }
             else
             {
-                return Result<IEnumerable<User>>.Failure(result.Error);
+                return Result<Dictionary<int, User>>.Failure(result.Error);
             }
         }
 

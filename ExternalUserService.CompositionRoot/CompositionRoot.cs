@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ExternalUserService.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Extensions.Http;
+using Utils;
 
 namespace ExternalUserService.CompositionRoot;
 
@@ -33,6 +35,8 @@ public static class CompositionRoot
         services.AddSingleton<UserService>();
 
         services.AddSingleton<IExternalUserClient, ExternalUserHttpClient>();
+
+        services.AddSingleton<ICacheProvider<int, User>, MemoryCacheProvider<int, User>>();        
 
         return services;
     }
