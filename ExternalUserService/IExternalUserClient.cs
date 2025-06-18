@@ -3,5 +3,5 @@
 public interface IExternalUserClient
 {
     Task<User> GetUserByIdAsync(int userId);
-    Task<List<User>> GetUsersByPageAsync(int page);
+    Task<(int? TotalPages, List<User> Users)> GetUsersByPageAsync(int page);
 }

@@ -14,40 +14,48 @@ public class UserFetcher
         this.users = users;
         
         Task.Run(async () =>  {
-            var users = await FetchUsers();            
+            var users = await FetchUsers();
             this.users.SetUsers(users);
             await Task.Delay(5 * 60 * 1000); // TODO: assuming data getting stale in 5 minutes
         });
     }
 
     private async Task<Dictionary<int, User>> FetchUsers()
-    {
-        var allUsers = new Dictionary<int, User>();
-
-        int page = 1;
+    {        
         Dictionary<int , User> users = new();
 
-        do
-        {
-            var userBatch = await fetcher.GetUsersByPageAsync(page);
-            if (userBatch == null)
-                return allUsers;
+        int page = 0;
 
-            userBatch.ForEach(x =>
+        var userBatch = await fetcher.GetUsersByPageAsync(page);
+        if (userBatch.Users == null || userBatch.TotalPages == null)
+            return users;
+
+        int totalPages = (int)userBatch.TotalPages;
+
+        while (true)
+        {
+            userBatch.Users.ForEach(x =>
             {
                 if (users.TryGetValue(x.Id, out _))
                 {
-                    // TODO: log message                    
+                    // TODO: Duplicate. log message
                 }
                 else
-                    users[x.Id] = x;
+                    users.Add(x.Id, x);
             }
             );
             
             page++;
+            if (page == totalPages)
+                break;
+            else
+            {
+                userBatch = await fetcher.GetUsersByPageAsync(page);
+                if (userBatch.Users == null)
+                    break;
+            }
         }
-        while (users.Count > 0);
 
-        return allUsers;
+        return users;
     }
 }

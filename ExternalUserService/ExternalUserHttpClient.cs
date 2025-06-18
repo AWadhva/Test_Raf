@@ -44,9 +44,10 @@ public class ExternalUserHttpClient : IExternalUserClient
     }
 
     // TODO: return MayBe
-    public async Task<List<User>> GetUsersByPageAsync(int page)
+    public async Task<(int? TotalPages, List<User> Users)> GetUsersByPageAsync(int page)
     {
-        var client = CreateClient();        
+        int? TotalPages = -1;
+        var client = CreateClient();
 
         // TODO: handle exception
         var response = await client.GetAsync($"users?page={page}");
@@ -56,7 +57,7 @@ public class ExternalUserHttpClient : IExternalUserClient
         var responseBody = await response.Content.ReadAsStringAsync();
 
         // TODO: handle json exception
-        var parsed = JsonSerializer.Deserialize<UserListResponse>(responseBody);
-        return parsed?.Data ?? new List<User>();
+        var parsed = JsonSerializer.Deserialize<UserListResponse>(responseBody);        
+        return (TotalPages: parsed?.TotalPages, parsed?.Data ?? new List<User>());
     }
 }

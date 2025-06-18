@@ -21,8 +21,8 @@ public class ExternalUserHttpClientTests
     public async void GetUserById_NominalCase()
     {
         var lst = await sut.GetUsersByPageAsync(page: 1);
-        lst.ShouldNotBeNull();
-        lst.ShouldNotBeEmpty();
+        lst.Users.ShouldNotBeNull();
+        lst.Users.ShouldNotBeEmpty();
     }
 
     [Fact]
